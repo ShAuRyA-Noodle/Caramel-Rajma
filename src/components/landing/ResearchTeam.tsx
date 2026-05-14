@@ -1,112 +1,116 @@
 import { motion } from "framer-motion";
 import { AUTHORS, INSTITUTION, DEPARTMENT, PAPER_TITLE, FUTURE_WORK } from "@/lib/data";
+import ImageSlot from "@/components/shared/ImageSlot";
 
-const fadeUp = {
-  hidden:  { opacity: 0, y: 50 },
-  visible: (i = 0) => ({
-    opacity: 1, y: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: i * 0.12 },
-  }),
-};
+// Dark bg: #083D77  dt-h=#FAFAF8  dt-b=#C2DCE8  dt-l=#8BBCCE  dt-m=#6AA0B8
 
 export default function ResearchTeam() {
   return (
-    <section id="team" className="py-36 px-6 lg:px-12 bg-bg relative overflow-hidden">
-      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="team" className="section-dark relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,#0D4D8A,#083D77_50%,#051E3E_100%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none"
+           style={{ background: "rgba(218,65,103,0.06)" }} />
 
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.p variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="text-xs text-primary font-body tracking-[0.35em] uppercase mb-5">
-          The Team
-        </motion.p>
-        <motion.h2
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="font-heading font-800 text-[clamp(2.4rem,5vw,4.5rem)] leading-[1.06]
-                     tracking-tight text-fg mb-3 max-w-3xl"
-        >
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-36">
+        <p className="font-mono text-[11px] tracking-label uppercase text-accent mb-6">The Team</p>
+        <h2 className="font-heading font-900 text-[clamp(2.6rem,6vw,5.5rem)] tracking-title leading-[1.02] text-[#FAFAF8] mb-3 max-w-3xl">
           {DEPARTMENT}
-        </motion.h2>
-        <motion.p
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
-          className="font-body text-fg-muted text-lg mb-5"
-        >
-          {INSTITUTION}
-        </motion.p>
-        <div className="h-px w-24 bg-primary mb-20" />
+        </h2>
+        <p className="font-body text-[#C2DCE8] text-lg mb-5">{INSTITUTION}</p>
+        <div className="h-[2px] w-16 bg-accent rounded-full mb-20" />
 
-        {/* Author cards */}
-        <div className="grid sm:grid-cols-3 gap-6 mb-16">
-          {AUTHORS.map((author, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp} custom={i}
-              initial="hidden" whileInView="visible" viewport={{ once: true }}
-              className={`relative rounded-2xl p-8 border overflow-hidden group
-                          hover:scale-[1.02] transition-transform duration-500
-                          ${author.isPI
-                            ? "border-primary/50 bg-gradient-to-br from-primary/10 to-bg-card"
-                            : "border-border-c bg-bg-card"
-                          }`}
-            >
-              {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                   style={{ background: author.isPI
-                     ? "radial-gradient(400px at 50% 0%, rgba(8,145,178,0.12), transparent)"
-                     : "radial-gradient(400px at 50% 0%, rgba(8,145,178,0.06), transparent)"
-                   }} />
+        {/* Institution image + authors */}
+        <div className="lg:grid lg:grid-cols-[45fr_55fr] gap-12 mb-16">
+          <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
+            <ImageSlot src="/assets/thapar-institute.jpg"
+              alt="Thapar Institute of Engineering and Technology, Patiala"
+              className="w-full aspect-[4/3] rounded-2xl mb-6" variant="dark"
+              label="Generate: thapar-institute.jpg" />
+            <p className="font-body text-[#C2DCE8] text-sm leading-relaxed">
+              Department of Electronics and Communication Engineering at
+              Thapar Institute of Engineering and Technology, Patiala, India.
+            </p>
+          </motion.div>
 
-              <div className="relative">
-                {/* Avatar */}
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center
-                                  font-heading font-800 text-lg mb-6
-                                  ${author.isPI
-                                    ? "bg-primary text-white"
-                                    : "bg-border-c/40 text-fg-muted"
-                                  }`}>
-                  {author.initials}
+          <div className="space-y-4">
+            {AUTHORS.filter(a => a.isPI).map((a) => (
+              <motion.div key={a.name}
+                initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="relative rounded-2xl border border-accent/35 bg-accent/8 p-7 overflow-hidden group
+                           hover:border-accent/55 transition-colors duration-500">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700
+                                bg-[radial-gradient(500px_at_50%_-50%,rgba(218,65,103,0.1),transparent)]" />
+                <div className="relative flex items-center gap-5">
+                  <div className="w-14 h-14 rounded-xl bg-accent flex items-center justify-center
+                                  font-heading font-900 text-xl text-[#FAFAF8] flex-shrink-0">
+                    {a.initials}
+                  </div>
+                  <div>
+                    <span className="inline-block font-mono text-[10px] text-accent/80 uppercase tracking-label
+                                     px-2 py-0.5 rounded-full border border-accent/30 bg-accent/10 mb-2">
+                      Principal Investigator
+                    </span>
+                    <h3 className="font-heading font-800 text-[1.5rem] text-[#FAFAF8] tracking-tight leading-none mb-1">
+                      {a.name}
+                    </h3>
+                    <p className="font-body text-[#C2DCE8] text-sm mb-1">{a.role}</p>
+                    <a href={`mailto:${a.email}`}
+                      className="font-mono text-xs text-[#8BBCCE] hover:text-accent transition-colors">
+                      {a.email}
+                    </a>
+                  </div>
                 </div>
+              </motion.div>
+            ))}
 
-                {/* PI badge */}
-                {author.isPI && (
-                  <span className="inline-block text-[10px] text-primary font-body uppercase
-                                   tracking-widest px-2 py-0.5 rounded-full border border-primary/30
-                                   bg-primary/10 mb-3">
-                    Principal Investigator
-                  </span>
-                )}
-
-                <h3 className="font-heading font-700 text-lg text-fg mb-1">{author.name}</h3>
-                <p className="font-body text-fg-muted text-sm mb-3">{author.role}</p>
-                <a
-                  href={`mailto:${author.email}`}
-                  className="font-body text-xs text-fg-muted hover:text-secondary transition-colors"
-                >
-                  {author.email}
-                </a>
-              </div>
-            </motion.div>
-          ))}
+            {AUTHORS.filter(a => !a.isPI).map((a, i) => (
+              <motion.div key={a.name}
+                initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                className="relative rounded-2xl border border-white/15 bg-white/6 p-6
+                           hover:border-white/25 transition-colors duration-400 group overflow-hidden">
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+                                bg-[radial-gradient(300px_at_0%_0%,rgba(250,250,248,0.05),transparent)]" />
+                <div className="relative flex items-center gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-white/12 border border-white/15
+                                  flex items-center justify-center font-heading font-800 text-base text-[#C2DCE8] flex-shrink-0">
+                    {a.initials}
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-700 text-[#FAFAF8] text-lg tracking-tight leading-none mb-1">
+                      {a.name}
+                    </h3>
+                    <p className="font-body text-[#C2DCE8] text-sm mb-0.5">{a.role}</p>
+                    <a href={`mailto:${a.email}`}
+                      className="font-mono text-[10px] text-[#8BBCCE] hover:text-accent/80 transition-colors">
+                      {a.email}
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Paper citation */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
-          className="rounded-2xl border border-border-c bg-bg-card p-8 lg:p-10 mb-10"
-        >
-          <p className="font-body text-fg-muted text-[10px] uppercase tracking-[0.3em] mb-4">Research Paper</p>
-          <p className="font-heading font-600 text-fg text-xl leading-relaxed">{PAPER_TITLE}</p>
+        <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7 }}
+          className="border border-white/15 rounded-2xl p-8 lg:p-10 mb-8">
+          <p className="font-mono text-[10px] text-[#8BBCCE] uppercase tracking-label mb-4">Research Paper</p>
+          <p className="font-heading font-600 text-[#FAFAF8] text-xl leading-relaxed">{PAPER_TITLE}</p>
         </motion.div>
 
         {/* Future work */}
-        <motion.div
-          variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={1}
-          className="rounded-2xl border border-accent/20 bg-gradient-to-r from-accent/5 to-bg-card/50 p-8 lg:p-10"
-        >
-          <p className="font-body text-fg-muted text-[10px] uppercase tracking-[0.3em] mb-4">Future Work</p>
-          <p className="font-body text-fg text-lg leading-relaxed max-w-3xl">{FUTURE_WORK}</p>
-          <p className="font-body text-[10px] text-fg-muted mt-4 uppercase tracking-widest">
-            — Verbatim from conclusions section of the paper
+        <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.7, delay: 0.1 }}
+          className="border-l-2 border-[#F4D35E]/60 pl-8">
+          <p className="font-mono text-[10px] text-[#F4D35E]/80 uppercase tracking-label mb-4">Future Work</p>
+          <p className="font-body text-[#C2DCE8] text-[1.0625rem] leading-[1.75] max-w-3xl">{FUTURE_WORK}</p>
+          <p className="font-mono text-[9px] text-[#6AA0B8] uppercase tracking-label mt-4">
+            Verbatim from conclusions section
           </p>
         </motion.div>
       </div>

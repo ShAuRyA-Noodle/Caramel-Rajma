@@ -1,166 +1,118 @@
 import { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { motion } from "framer-motion";
 import { PIPELINE_STEPS } from "@/lib/data";
 
+// Light bg: #EBEBD3  lt-h=#083D77  lt-b=#1E5478  lt-l=#345E7A  lt-m=#3A6080
+// Cards: bg-white — high contrast on beige
+
 const TAG_COLORS: Record<string, string> = {
-  Hardware:     "bg-primary/15 text-secondary border-primary/20",
-  Processing:   "bg-accent/15 text-[#34d399] border-accent/20",
-  Preprocessing:"bg-warning/15 text-warning border-warning/20",
-  "Deep Learning": "bg-[#8B5CF6]/15 text-[#a78bfa] border-[#8B5CF6]/20",
-  Optimisation: "bg-secondary/15 text-secondary border-secondary/20",
-  "ML Model":   "bg-primary/15 text-primary border-primary/20",
-  "IoT Edge":   "bg-accent/15 text-accent border-accent/20",
+  Hardware:        "bg-[#EFF6FA] text-[#083D77] border-[#B0C8D8]",
+  Processing:      "bg-[#F0FAF2] text-[#1A5E2A] border-[#A5D6B0]",
+  Preprocessing:   "bg-[#FFF9EC] text-[#7A4E00] border-[#F4D35E]",
+  "Deep Learning": "bg-[#F3F0FF] text-[#4A2C90] border-[#C4B5F5]",
+  Optimisation:    "bg-[#EDFAF6] text-[#0A5944] border-[#A0D8CC]",
+  "ML Model":      "bg-[#EFF6FA] text-[#083D77] border-[#B0C8D8]",
+  "IoT Edge":      "bg-[#F0FAF2] text-[#1A5E2A] border-[#A5D6B0]",
+};
+
+const STAGE_GRADIENTS: Record<number, string> = {
+  1: "radial-gradient(ellipse at 50% 120%, #DA4167 -30%, #083D77 60%, #051E3E 100%)",
+  2: "linear-gradient(135deg, #051E3E 0%, #0A2E5A 40%, #0D4473 100%)",
+  3: "linear-gradient(120deg, #052040 0%, #0B3A5A 50%, #073320 100%)",
+  4: "radial-gradient(ellipse at 20% 80%, #1A0A4A 0%, #051E3E 50%, #0A1A3A 100%)",
+  5: "linear-gradient(135deg, #051E3E 0%, #0A2F1A 50%, #0D3A0D 100%)",
+  6: "radial-gradient(ellipse at 80% 20%, #3D0A1F 0%, #051E3E 60%, #0A0D1F 100%)",
+  7: "linear-gradient(135deg, #051E3E 0%, #0F1A3A 40%, #1A1040 100%)",
 };
 
 export default function Pipeline() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef   = useRef<HTMLDivElement>(null);
-  const headerRef  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const track   = trackRef.current;
     if (!section || !track) return;
-
-    // Animate cards in first (before pin kicks in)
-    const cards = track.querySelectorAll<HTMLElement>(".pipe-card");
-
     const ctx = gsap.context(() => {
-      // Horizontal scroll + pin
-      const totalWidth = track.scrollWidth - section.clientWidth;
-
-      const scrollTween = gsap.to(track, {
+      gsap.to(track, {
         x: () => `-${track.scrollWidth - window.innerWidth}px`,
         ease: "none",
         scrollTrigger: {
-          trigger: section,
-          pin: true,
-          scrub: 1,
+          trigger: section, pin: true, scrub: 0.8,
           start: "top top",
           end: () => `+=${track.scrollWidth - window.innerWidth}`,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
+          invalidateOnRefresh: true, anticipatePin: 1,
         },
       });
-
-      // Cards fade in as they enter the viewport (during horizontal scroll)
-      cards.forEach((card, i) => {
-        gsap.from(card, {
-          opacity: 0,
-          scale: 0.92,
-          duration: 0.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: section,
-            start: `top+=${i * 120} top`,
-            containerAnimation: scrollTween,
-            once: true,
-          },
-        });
-      });
     }, section);
-
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="pipeline"
-      ref={sectionRef}
-      className="relative overflow-hidden bg-bg-mid"
-      style={{ height: "100vh" }}
-    >
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[800px] h-[300px] bg-primary/5 blur-[120px]" />
-      </div>
+    <section id="pipeline" ref={sectionRef} className="section-light relative overflow-hidden" style={{ height: "100vh" }}>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(218,65,103,0.04),transparent)] pointer-events-none" />
 
-      {/* Header — fixed inside pinned section */}
-      <div ref={headerRef} className="relative z-10 pt-24 pb-10 px-6 lg:px-16">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-xs text-primary font-body tracking-[0.35em] uppercase mb-4"
-        >
-          The Pipeline
-        </motion.p>
+      {/* Header */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-16 pt-24 pb-8">
+        <p className="font-mono text-[11px] tracking-label uppercase text-accent mb-5">The Pipeline</p>
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="font-heading font-800 text-[clamp(2rem,4vw,3.5rem)] leading-[1.08]
-                       tracking-tight text-fg"
-          >
+          <h2 className="font-heading font-900 text-[clamp(2.4rem,5vw,4.5rem)] leading-[1.04] tracking-title text-[#083D77]">
             From antenna to prediction.
-            <span className="block text-fg-muted font-400 text-[0.55em] tracking-normal mt-1">
-              7 stages · Real-time · Raspberry Pi edge deployment
+            <span className="block font-400 text-[0.48em] tracking-[-0.01em] text-[#345E7A] mt-2">
+              7 stages · Real-time · Raspberry Pi edge
             </span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="text-fg-muted/50 text-xs font-body tracking-widest hidden lg:block"
-          >
-            ← SCROLL →
-          </motion.p>
+          </h2>
+          <p className="font-mono text-[10px] text-[#3A6080] tracking-label uppercase hidden lg:block pb-3">
+            drag or scroll to explore
+          </p>
         </div>
       </div>
 
       {/* Horizontal track */}
-      <div
-        ref={trackRef}
-        className="absolute bottom-0 left-0 flex items-end gap-5 px-16 pb-16"
-        style={{ width: "max-content" }}
-      >
+      <div ref={trackRef} className="absolute bottom-0 left-0 flex items-end gap-4 px-16 pb-16 will-change-transform"
+           style={{ width: "max-content" }}>
         {PIPELINE_STEPS.map((step, i) => (
-          <div
-            key={step.step}
-            className="pipe-card relative flex-shrink-0 w-[300px] lg:w-[320px]
-                       border border-border-c rounded-2xl p-7 bg-bg-card
-                       hover:border-primary/40 transition-colors duration-500 group"
-            style={{ height: "260px" }}
-          >
-            {/* Step counter */}
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-heading font-900 text-[3rem] leading-none text-border-c">
-                {String(step.step).padStart(2, "0")}
+          <div key={step.step}
+            className="flex-shrink-0 w-[280px] lg:w-[300px] rounded-2xl overflow-hidden
+                       border border-[#B0C8D8] bg-white hover:shadow-[0_8px_32px_rgba(8,61,119,0.12)]
+                       transition-shadow duration-500 group"
+            style={{ height: "340px" }}>
+            {/* Image area */}
+            <div className="relative h-[170px] overflow-hidden" style={{ background: STAGE_GRADIENTS[step.step] }}>
+              <span className="absolute top-4 left-5 font-mono font-700 text-[10px] tracking-label uppercase text-white/25">
+                Stage {String(step.step).padStart(2, "0")}
               </span>
-              <span className={`text-[10px] px-2.5 py-1 rounded-full border font-body font-500 uppercase tracking-wider
-                               ${TAG_COLORS[step.tag] ?? "bg-border-c/30 text-fg-muted border-border-c"}`}>
-                {step.tag}
-              </span>
+              <div className="absolute bottom-3 right-3">
+                <span className="font-mono text-[8px] text-white/20 tracking-widest uppercase">
+                  /pipeline/stage-{step.step}.jpg
+                </span>
+              </div>
             </div>
 
-            <h3 className="font-heading font-700 text-[1.1rem] text-fg mb-3 leading-tight">
-              {step.label}
-            </h3>
-            <p className="font-body text-fg-muted text-sm leading-[1.7]">
-              {step.description}
-            </p>
-
-            {/* Connector line (not on last) */}
-            {i < PIPELINE_STEPS.length - 1 && (
-              <div className="absolute -right-[13px] top-1/2 -translate-y-1/2 z-10 flex items-center gap-1">
-                <div className="w-3.5 h-px bg-border-c" />
-                <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-border-c" />
+            {/* Content */}
+            <div className="p-6 flex flex-col h-[170px]">
+              <div className="flex items-start justify-between mb-3">
+                <h3 className="font-heading font-800 text-[1.0625rem] text-[#083D77] leading-tight tracking-tight">
+                  {step.label}
+                </h3>
+                <span className="font-mono text-[9px] text-[#3A6080] ml-2 mt-0.5 flex-shrink-0">
+                  {String(step.step).padStart(2, "0")}
+                </span>
               </div>
-            )}
-
-            {/* Hover glow */}
-            <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                            bg-gradient-to-br from-primary/5 to-transparent" />
+              <p className="font-body text-[#1E5478] text-[0.8125rem] leading-[1.65] flex-1">
+                {step.description}
+              </p>
+              <div className="mt-3 h-px w-8 bg-accent/30 group-hover:w-16 group-hover:bg-accent/60 transition-all duration-500 rounded-full" />
+            </div>
           </div>
         ))}
-
-        {/* End spacer */}
-        <div className="flex-shrink-0 w-20" />
+        <div className="flex-shrink-0 w-24" />
       </div>
 
-      {/* Progress indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+      {/* Progress dots */}
+      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
         {PIPELINE_STEPS.map((_, i) => (
-          <div key={i} className="w-1 h-1 rounded-full bg-border-c" />
+          <div key={i} className="w-1 h-1 rounded-full bg-[#345E7A]/40" />
         ))}
       </div>
     </section>

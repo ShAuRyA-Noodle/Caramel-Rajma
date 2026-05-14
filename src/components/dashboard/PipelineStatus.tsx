@@ -16,7 +16,7 @@ export default function PipelineStatus() {
       <div className="flex items-center justify-between mb-5">
         <div>
           <p className="font-heading font-700 text-[#134E4A] text-base">ML Pipeline</p>
-          <p className="font-body text-xs text-[#64748B] mt-0.5">From Fig. 1 flowchart — Kaur, Manik, Gupta, Punj, Upadhyay, Kaur (Thapar Institute)</p>
+          <p className="font-body text-xs text-[#64748B] mt-0.5">From Fig. 1 flowchart · Kaur, Manik, Gupta, Punj, Upadhyay, Kaur (Thapar Institute)</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-[#22C55E] animate-blink" />

@@ -42,7 +42,7 @@ export default function ModelComparison() {
           Performance Comparison
         </p>
         <p className="font-body text-xs text-[#64748B] mb-6">
-          Table II — Accuracy / Precision / Recall / F1 for all 5 models
+          Table II · Accuracy / Precision / Recall / F1 for all 5 models
         </p>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={multiData} barSize={12} barGap={2} barCategoryGap="30%">
@@ -63,10 +63,10 @@ export default function ModelComparison() {
       {/* AUC chart */}
       <div className="bg-white border border-[#A5F3FC] rounded-2xl p-6">
         <p className="font-heading font-700 text-[#134E4A] text-sm mb-1">
-          AUC — Area Under ROC Curve
+          AUC · Area Under ROC Curve
         </p>
         <p className="font-body text-xs text-[#64748B] mb-6">
-          Table I — TabNet AUC not reported in paper
+          Table I · TabNet AUC not reported in paper
         </p>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={aucData} barSize={36} barCategoryGap="40%">

@@ -1,18 +1,21 @@
+"use client";
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { syncLenis } from "@/lib/gsap";
 
+// Award-winning scroll config — same easing formula as Apple.com
+// duration 2.0 + expo-out = buttery deceleration with weight
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.4,
-      // Exponential ease — same formula as Apple website
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 2.0,
+      easing: (t: number) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.85,
-      touchMultiplier: 1.8,
+      wheelMultiplier: 0.75,   // slightly slow = more control = more premium feel
+      touchMultiplier: 2.0,
+      infinite: false,
     });
 
     syncLenis(lenis);
@@ -21,9 +24,12 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    const id = requestAnimationFrame(raf);
 
-    return () => lenis.destroy();
+    return () => {
+      cancelAnimationFrame(id);
+      lenis.destroy();
+    };
   }, []);
 
   return <>{children}</>;

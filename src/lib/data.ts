@@ -1,4 +1,4 @@
-// SOURCE OF TRUTH — All values from:
+// SOURCE OF TRUTH · All values from:
 // "ML based Blood Glucose Level Detection using Microwave based sensors"
 // Thapar Institute of Engineering and Technology, Patiala, India
 // DO NOT add any value not directly from the paper.
@@ -53,14 +53,14 @@ export const KEYWORDS = [
   "CatBoost",
 ];
 
-// Epidemiological stats — from paper (citing Saeedi et al., 2019)
+// Epidemiological stats · from paper (citing Saeedi et al., 2019)
 export const STATS = {
   worldwideDiabetics: 828_000_000,
   indiaDiabetics: 212_000_000,
   indiaFraction: "roughly a quarter",
 } as const;
 
-// Problem framing — verbatim from paper
+// Problem framing · verbatim from paper
 export const PROBLEM_QUOTES = [
   {
     quote:
@@ -76,7 +76,7 @@ export const PROBLEM_QUOTES = [
   },
 ] as const;
 
-// The physics of microwave glucose sensing — verbatim from paper
+// The physics of microwave glucose sensing · verbatim from paper
 export const PHYSICS_STEPS = [
   {
     number: "01",
@@ -157,7 +157,7 @@ export const PIPELINE_STEPS = [
   },
 ] as const;
 
-// ML model performance — Table I and Table II from paper
+// ML model performance · Table I and Table II from paper
 export const ML_MODELS = [
   {
     name: "Logistic Regression",
@@ -181,7 +181,7 @@ export const ML_MODELS = [
     f1: 79.4,
     color: "#22C55E",
     highlight: "highest-accuracy",
-    note: "Highest accuracy (97.2%) — most effective traditional ML model",
+    note: "Highest accuracy (97.2%) · most effective traditional ML model",
   },
   {
     name: "XGBoost",
@@ -193,7 +193,7 @@ export const ML_MODELS = [
     f1: 78.9,
     color: "#F59E0B",
     highlight: "best-balance",
-    note: "Best precision/recall balance — reliable with fewer false positives and negatives",
+    note: "Best precision/recall balance · reliable with fewer false positives and negatives",
   },
   {
     name: "CatBoost",
@@ -205,7 +205,7 @@ export const ML_MODELS = [
     f1: 79.4,
     color: "#0891B2",
     highlight: "highest-auc",
-    note: "Highest AUC (0.97) — best class discrimination across thresholds",
+    note: "Highest AUC (0.97) · best class discrimination across thresholds",
   },
   {
     name: "TabNet",
@@ -217,11 +217,11 @@ export const ML_MODELS = [
     f1: 21.9,
     color: "#8B5CF6",
     highlight: "perfect-recall",
-    note: "Perfect recall (100%) — useful for risk-averse screening where missing a diabetic case is critical",
+    note: "Perfect recall (100%) · useful for risk-averse screening where missing a diabetic case is critical",
   },
 ] as const;
 
-// Hardware specs — from paper
+// Hardware specs · from paper
 export const HARDWARE = {
   antennaSubstrate: "Rogers R5880",
   antennaType: "Flexible antenna with AMC (Artificial Magnetic Conductor) backing",
@@ -234,12 +234,12 @@ export const HARDWARE = {
 } as const;
 
 export const IOT_STACK = [
-  { tech: "MongoDB", role: "NoSQL — stores glucose data efficiently" },
+  { tech: "MongoDB", role: "NoSQL · stores glucose data efficiently" },
   { tech: "MQTT Protocol", role: "Latent-free data transfer" },
-  { tech: "Raspberry Pi", role: "Edge computing — real-time prediction" },
+  { tech: "Raspberry Pi", role: "Edge computing · real-time prediction" },
 ] as const;
 
-// Prior work — from literature review in paper
+// Prior work · from literature review in paper
 export const PRIOR_WORK = [
   {
     tech: "Narrowband microwave sensor",

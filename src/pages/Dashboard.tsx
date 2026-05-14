@@ -21,7 +21,7 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-4">
             <span className="text-xs text-[#64748B] font-body hidden md:block">
-              Raspberry Pi — Simulation Mode
+              Raspberry Pi · Simulation Mode
             </span>
             <Link
               to="/"
